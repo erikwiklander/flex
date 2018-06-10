@@ -85,10 +85,25 @@
 			<artifactId>datasource-proxy</artifactId>
 			<version>1.4.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<!-- <skip>${it.skip}</skip> -->
+					<environmentVariables>
+						<it-database.port>${it-database.port}</it-database.port>
+						<it-database.server>${it-database.server}</it-database.server>
+					</environmentVariables>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -128,6 +143,47 @@
 			        </execution>
 			    </executions>
 			</plugin>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.26.0</version>
+				<executions>
+					<execution>
+						<id>prepare-it-database</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<configuration>
+							<images>
+								<image>
+									<name>postgres:10</name>
+									<alias>it-database</alias>
+									<run>
+										<ports>
+											<port>it-database.port:5432</port>
+										</ports>
+										<wait>
+											<log>database system is ready to accept connections</log>
+											<time>20000</time>
+										</wait>
+									</run>
+								</image>
+							</images>
+						</configuration>
+					</execution>
+					<execution>
+						<id>remove-it-database</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+<!-- 						<configuration>
+							<skip>${it.skip}</skip>
+						</configuration> -->
+					</execution>
+				</executions>
+			</plugin>			
 		</plugins>
 	</build>
 

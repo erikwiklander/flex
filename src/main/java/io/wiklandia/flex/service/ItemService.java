@@ -64,9 +64,10 @@ public class ItemService {
 		log.info("em: {}", em);
 		Assert.notNull(item, "Item cannot be null");
 		Assert.notNull(attribute, "attribute cannot be null");
+
 		Value value = values
 				.findOne(ExpressionUtils.and(QValue.value.attribute.eq(attribute), QValue.value.item.eq(item)))
-				.orElse(values.save(Value.of(attribute, item)));
+				.orElseGet(() -> values.save(Value.of(attribute, item)));
 
 		switch (attribute.getType()) {
 		case TEXT:

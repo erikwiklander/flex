@@ -1,16 +1,43 @@
 package io.wiklandia.flex.model;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.Optional;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.collect.Iterables;
+
 import io.wiklandia.flex.FlexApplicationTests;
+import io.wiklandia.flex.service.ItemTypeService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class TestQueries extends FlexApplicationTests {
 
 	@Autowired
-	ItemRepository items;
+	private ItemTypeRepository itemTypes;
+
+	@Autowired
+	private ItemTypeService itemTypeService;
+
+	@Test
+	public void tet() {
+		itemTypeService.findOrCreate("erik");
+		assertEquals(1, itemTypes.count());
+		assertEquals(1, Iterables.size(itemTypes.findAll(QItemType.itemType.name.eq("erik"))));
+
+		log.info("Hej! {}", itemTypes.findOne(QItemType.itemType.name.eq("erik")));
+
+		itemTypeService.findOrCreate("erik");
+		// assertEquals(1, itemTypes.count());
+	}
+
+	@Test
+	public void optional() {
+		assertEquals("erik", Optional.empty().orElse("erik"));
+	}
 
 	@Test
 	public void test() {
