@@ -4,17 +4,22 @@ import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(of = "attribute", callSuper = false)
+@Table(indexes = { @Index(name = "value_attribute_id_index", columnList = "attribute_id"),
+		@Index(name = "value_item_id_index", columnList = "item_id"),
+		@Index(name = "value_text_value_index", columnList = "textValue"),
+		@Index(name = "value_decimal_value_index", columnList = "decimalValue"),
+		@Index(name = "value_long_value_index", columnList = "longValue") })
 public class Value extends Base {
 
 	@NotNull
