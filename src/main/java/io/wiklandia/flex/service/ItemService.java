@@ -9,6 +9,8 @@ import org.springframework.util.Assert;
 import com.querydsl.core.types.ExpressionUtils;
 
 import io.wiklandia.flex.model.Attribute;
+import io.wiklandia.flex.model.AttributeRepository;
+import io.wiklandia.flex.model.AttributeType;
 import io.wiklandia.flex.model.Item;
 import io.wiklandia.flex.model.ItemRepository;
 import io.wiklandia.flex.model.ItemType;
@@ -25,9 +27,16 @@ public class ItemService {
 
 	private final ValueRepository values;
 	private final ItemRepository items;
+	private final AttributeRepository attributes;
 
 	public Item create(ItemType itemType) {
 		return items.save(Item.of(itemType));
+	}
+
+	public void save(Item item, Long attributeId, Object val) {
+		Attribute attribute = attributes.findById(attributeId)
+				.orElseThrow(() -> new IllegalStateException("No such attribute: " + attributeId));
+		save(item, attribute, val);
 	}
 
 	public void save(Item item, Attribute attribute, Object val) {
@@ -40,8 +49,9 @@ public class ItemService {
 				.findOne(ExpressionUtils.and(QValue.value.attribute.eq(attribute), QValue.value.item.eq(item)))
 				.orElseGet(() -> values.save(Value.of(attribute, item)));
 
-		Field field = ReflectionUtils.findRequiredField(Value.class, attribute.getAttributeType().getField());
-		ReflectionUtils.setField(field, value, val);
+		AttributeType attributeType = attribute.getAttributeType();
+		Field field = ReflectionUtils.findRequiredField(Value.class, attributeType.getField());
+		ReflectionUtils.setField(field, value, attributeType.getObjectConverter().apply(val));
 		//
 		// switch (attribute.getAttributeType()) {
 		// case TEXT:
