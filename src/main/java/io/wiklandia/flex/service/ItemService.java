@@ -18,9 +18,7 @@ import io.wiklandia.flex.model.QValue;
 import io.wiklandia.flex.model.Value;
 import io.wiklandia.flex.model.ValueRepository;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 @AllArgsConstructor
 public class ItemService {
@@ -33,42 +31,26 @@ public class ItemService {
 		return items.save(Item.of(itemType));
 	}
 
-	public void save(Item item, Long attributeId, Object val) {
+	public void save(Item item, Long attributeId, String val) {
 		Attribute attribute = attributes.findById(attributeId)
 				.orElseThrow(() -> new IllegalStateException("No such attribute: " + attributeId));
-		save(item, attribute, val);
+		save(item, attribute, attribute.getAttributeType().getObjectConverter().apply(val));
 	}
 
 	public void save(Item item, Attribute attribute, Object val) {
-
-		log.info("SAVE");
-		Assert.notNull(item, "Item cannot be null");
+		Assert.notNull(item, "item cannot be null");
 		Assert.notNull(attribute, "attribute cannot be null");
 
-		Value value = values
+		Value valueObject = values
 				.findOne(ExpressionUtils.and(QValue.value.attribute.eq(attribute), QValue.value.item.eq(item)))
 				.orElseGet(() -> values.save(Value.of(attribute, item)));
 
 		AttributeType attributeType = attribute.getAttributeType();
 		Field field = ReflectionUtils.findRequiredField(Value.class, attributeType.getField());
-		ReflectionUtils.setField(field, value, attributeType.getObjectConverter().apply(val));
-		//
-		// switch (attribute.getAttributeType()) {
-		// case TEXT:
-		// value.setTextValue((String) val);
-		// break;
-		// case DECIMAL:
-		// value.setDecimalValue((BigDecimal) val);
-		// break;
-		// case LONG:
-		// value.setLongValue((Long) val);
-		// break;
-		// default:
-		// throw new IllegalArgumentException("Unknown type: " +
-		// attribute.getAttributeType());
-		// }
 
-		values.save(value);
+		ReflectionUtils.setField(field, valueObject, val);
+
+		values.save(valueObject);
 	}
 
 }

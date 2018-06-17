@@ -18,8 +18,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "name", callSuper = false)
-@Table(indexes = { @Index(name = "attribute_attribute_type_index", columnList = "attributeType"),
+// @formatter:off
+@Table(indexes = { 
+		@Index(name = "attribute_attribute_type_index", columnList = "attributeType"),
 		@Index(name = "attribute_item_type_id_index", columnList = "item_type_id") })
+// @formatter:on
 public class Attribute extends Base {
 
 	@NotNull

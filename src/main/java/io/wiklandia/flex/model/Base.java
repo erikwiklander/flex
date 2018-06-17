@@ -1,6 +1,6 @@
 package io.wiklandia.flex.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -32,9 +32,9 @@ public abstract class Base {
 	private int version;
 
 	@CreatedDate
-	private Date createdDate;
+	private LocalDateTime createdDate;
 
 	@LastModifiedDate
-	private Date lastModifiedDate;
+	private LocalDateTime lastModifiedDate;
 
 }

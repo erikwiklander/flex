@@ -37,11 +37,11 @@ public class ItemController {
 	}
 
 	@PostMapping("items/{itemType}/{item}")
-	public void update(@PathParam("item") Item item, @RequestBody(required = false) Map<Long, Object> values) {
+	public void update(@PathParam("item") Item item, @RequestBody(required = false) Map<Long, String> values) {
 
 		log.info("item {} ", item);
 
-		for (Map.Entry<Long, Object> value : values.entrySet()) {
+		for (Map.Entry<Long, String> value : values.entrySet()) {
 			itemService.save(item, value.getKey(), value.getValue());
 		}
 

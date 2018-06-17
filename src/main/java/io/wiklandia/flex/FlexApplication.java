@@ -1,6 +1,8 @@
 package io.wiklandia.flex;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -37,6 +39,8 @@ public class FlexApplication {
 			Attribute textA = itemTypeService.createAttribute("haha", AttributeType.TEXT, book);
 			Attribute longA = itemTypeService.createAttribute("haha1", AttributeType.LONG, book);
 			Attribute decimalA = itemTypeService.createAttribute("haha2", AttributeType.DECIMAL, book);
+			Attribute dateTimeA = itemTypeService.createAttribute("haha3", AttributeType.DATE_TIME, book);
+			Attribute dateA = itemTypeService.createAttribute("h1h1", AttributeType.DATE, book);
 
 			Item i1 = itemService.create(book);
 			itemService.save(i1, textA, "Cool!");
@@ -45,6 +49,8 @@ public class FlexApplication {
 			Item i2 = itemService.create(book);
 			itemService.save(i2, textA, "Yey!");
 			itemService.save(i2, longA, 90L);
+			itemService.save(i2, dateTimeA, LocalDateTime.now());
+			itemService.save(i2, dateA, LocalDate.now());
 
 			log.info("lll: {} ", ites.getItems(book, null));
 
