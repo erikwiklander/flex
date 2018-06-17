@@ -12,7 +12,7 @@ import io.wiklandia.flex.dto.ItemDto;
 import io.wiklandia.flex.dto.ValueDto;
 import io.wiklandia.flex.model.Attribute;
 import io.wiklandia.flex.model.ItemType;
-import io.wiklandia.flex.service.AttributeService;
+import io.wiklandia.flex.service.ItemTypeService;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 public class ItemFinderService {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
-	private final AttributeService attributeService;
+	private final ItemTypeService itemTypeService;
 
 	public List<ItemDto> getItems(ItemType itemType, Pageable pageable) {
 
@@ -39,7 +39,7 @@ public class ItemFinderService {
 			sql.append("offset :offset");
 		}
 
-		Iterable<Attribute> attributes = attributeService.findAttributesForItemType(itemType);
+		Iterable<Attribute> attributes = itemTypeService.findAttributesForItemType(itemType);
 
 		// @formatter:off
 		return jdbcTemplate

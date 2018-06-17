@@ -1,7 +1,8 @@
 package io.wiklandia.flex.service;
 
-import java.math.BigDecimal;
+import java.lang.reflect.Field;
 
+import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -39,19 +40,23 @@ public class ItemService {
 				.findOne(ExpressionUtils.and(QValue.value.attribute.eq(attribute), QValue.value.item.eq(item)))
 				.orElseGet(() -> values.save(Value.of(attribute, item)));
 
-		switch (attribute.getAttributeType()) {
-		case TEXT:
-			value.setTextValue((String) val);
-			break;
-		case DECIMAL:
-			value.setDecimalValue((BigDecimal) val);
-			break;
-		case LONG:
-			value.setLongValue((Long) val);
-			break;
-		default:
-			throw new IllegalArgumentException("Unknown type: " + attribute.getAttributeType());
-		}
+		Field field = ReflectionUtils.findRequiredField(Value.class, attribute.getAttributeType().getField());
+		ReflectionUtils.setField(field, value, val);
+		//
+		// switch (attribute.getAttributeType()) {
+		// case TEXT:
+		// value.setTextValue((String) val);
+		// break;
+		// case DECIMAL:
+		// value.setDecimalValue((BigDecimal) val);
+		// break;
+		// case LONG:
+		// value.setLongValue((Long) val);
+		// break;
+		// default:
+		// throw new IllegalArgumentException("Unknown type: " +
+		// attribute.getAttributeType());
+		// }
 
 		values.save(value);
 	}

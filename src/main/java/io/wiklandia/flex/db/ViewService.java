@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import io.wiklandia.flex.model.Attribute;
 import io.wiklandia.flex.model.ItemType;
-import io.wiklandia.flex.service.AttributeService;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -13,10 +12,11 @@ import lombok.AllArgsConstructor;
 public class ViewService {
 
 	private final JdbcTemplate jdbcTemplate;
-	private final AttributeService attributeService;
+	// private final AttributeService attributeService;
 
-	public void updateView(ItemType itemType) {
-		Iterable<Attribute> attributes = attributeService.findAttributesForItemType(itemType);
+	public void updateView(ItemType itemType, Iterable<Attribute> attributes) {
+		// Iterable<Attribute> attributes =
+		// attributeService.findAttributesForItemType(itemType);
 		String sql = getSql(itemType, attributes);
 		jdbcTemplate.execute(sql);
 	}
