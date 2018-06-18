@@ -103,7 +103,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<configuration>
-					<!-- <skip>${it.skip}</skip> -->
+					<skip>${it.skip}</skip>
 					<environmentVariables>
 						<it-database.port>${it-database.port}</it-database.port>
 						<it-database.server>${it-database.server}</it-database.server>
@@ -161,6 +161,7 @@
 							<goal>start</goal>
 						</goals>
 						<configuration>
+							<skip>${it.skip}</skip>
 							<images>
 								<image>
 									<name>postgres:10</name>
