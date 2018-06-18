@@ -1,28 +1,25 @@
 package io.wiklandia.flex.dto;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Getter
 @Setter
+@RequiredArgsConstructor(staticName = "of")
 public class ItemDto {
 
-	private Long id;
+	private final Long id;
+	private final LocalDateTime createdDate;
+	private final LocalDateTime modifiedDate;
 	private Map<Long, Object> values = new HashMap<>();
 
-	private ItemDto(Long id) {
-		this.id = id;
-	}
-
-	public static ItemDto of(Long id) {
-		return new ItemDto(id);
-	}
-
 	public void addValue(Long attributeId, Object value) {
-		values.put(attributeId, value);
+		this.values.put(attributeId, value);
 	}
 
 }

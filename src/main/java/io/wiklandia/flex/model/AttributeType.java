@@ -8,8 +8,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -31,17 +31,17 @@ public enum AttributeType {
 	LONG("long_value",
 			"longValue",
 			Long::valueOf,
-			(rs, col) -> Try.of(() -> Optional.of(rs.getObject(col)).map(o -> (Long) o).get())),
+			(rs, col) -> Try.of(() -> Optional.of(rs.getObject(col)).map(o -> (Long) o)).getOrNull()),
 
 	DATE_TIME("date_time_value",
 			"dateTimeValue",
-			val -> LocalDateTime.parse(val, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")),
-			(rs, col) -> Try.of(() -> Optional.of(rs.getTimestamp(col)).map(Timestamp::toLocalDateTime))),
+			val -> ZonedDateTime.parse(val).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime(),
+			(rs, col) -> Try.of(() -> Optional.of(rs.getTimestamp(col)).map(Timestamp::toLocalDateTime)).getOrNull()),
 
 	DATE("date_value",
 			"dateValue",
 			val -> Optional.of(val).map(LocalDate::parse).orElse(null),
-			(rs, col) -> Try.of(() -> Optional.of(rs.getDate(col)).map(Date::toLocalDate)));
+			(rs, col) -> Try.of(() -> Optional.of(rs.getDate(col)).map(Date::toLocalDate)).getOrNull());
 
 
 	private final String dbCol;

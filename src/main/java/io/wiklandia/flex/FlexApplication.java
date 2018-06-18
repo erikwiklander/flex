@@ -1,15 +1,5 @@
 package io.wiklandia.flex;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
 import io.wiklandia.flex.db.ItemFinderService;
 import io.wiklandia.flex.db.ViewService;
 import io.wiklandia.flex.model.Attribute;
@@ -19,6 +9,15 @@ import io.wiklandia.flex.model.ItemType;
 import io.wiklandia.flex.service.ItemService;
 import io.wiklandia.flex.service.ItemTypeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Slf4j
 @EnableJpaAuditing
@@ -28,11 +27,6 @@ public class FlexApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FlexApplication.class, args);
 	}
-
-	// @PostConstruct
-	// void started() {
-	// TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-	// }
 
 	@Bean
 	public CommandLineRunner commandLineRunner(ItemService itemService, ItemTypeService itemTypeService,
@@ -56,6 +50,8 @@ public class FlexApplication {
 			itemService.save(i2, longA, 90L);
 			itemService.save(i2, dateTimeA, LocalDateTime.now());
 			itemService.save(i2, dateA, LocalDate.now());
+
+			Item i3 = itemService.create(book);
 
 			log.info("lll: {} ", ites.getItems(book, null));
 

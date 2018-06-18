@@ -1,10 +1,9 @@
 package io.wiklandia.flex.db;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
-
 import io.wiklandia.flex.model.Attribute;
 import lombok.AllArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
@@ -13,8 +12,8 @@ public class ViewService {
 	private final JdbcTemplate jdbcTemplate;
 
 	public void updateView(Iterable<Attribute> attributes) {
-		String sql = getSql(attributes);
-		jdbcTemplate.execute(sql);
+		String sql = this.getSql(attributes);
+		this.jdbcTemplate.execute(sql);
 	}
 
 	protected String getSql(Iterable<Attribute> attributes) {
@@ -22,7 +21,7 @@ public class ViewService {
 		StringBuilder sb = new StringBuilder();
 		sb.append("create or replace view items")
 			.append(" as ")
-			.append("select item.id, ")
+				.append("select item.id, item.created_date, item.last_modified_date, ")
 			.append("item.item_type_id");
 		// @formatter:on
 
