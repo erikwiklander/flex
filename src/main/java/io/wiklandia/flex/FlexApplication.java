@@ -10,8 +10,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Slf4j
+@Controller
 @EnableJpaAuditing
 @SpringBootApplication
 public class FlexApplication {
@@ -19,6 +22,11 @@ public class FlexApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FlexApplication.class, args);
 	}
+
+  @GetMapping(value = "/{path:[^\\.]*}")
+  public String redirect() {
+    return "forward:/";
+  }
 
 	@Bean
 	public CommandLineRunner commandLineRunner(ItemService itemService, ItemTypeService itemTypeService,
