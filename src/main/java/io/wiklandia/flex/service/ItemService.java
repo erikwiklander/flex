@@ -1,23 +1,13 @@
 package io.wiklandia.flex.service;
 
-import java.lang.reflect.Field;
-
+import com.querydsl.core.types.ExpressionUtils;
+import io.wiklandia.flex.model.*;
+import lombok.AllArgsConstructor;
 import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.querydsl.core.types.ExpressionUtils;
-
-import io.wiklandia.flex.model.Attribute;
-import io.wiklandia.flex.model.AttributeRepository;
-import io.wiklandia.flex.model.AttributeType;
-import io.wiklandia.flex.model.Item;
-import io.wiklandia.flex.model.ItemRepository;
-import io.wiklandia.flex.model.ItemType;
-import io.wiklandia.flex.model.QValue;
-import io.wiklandia.flex.model.Value;
-import io.wiklandia.flex.model.ValueRepository;
-import lombok.AllArgsConstructor;
+import java.lang.reflect.Field;
 
 @Service
 @AllArgsConstructor
@@ -28,29 +18,29 @@ public class ItemService {
 	private final AttributeRepository attributes;
 
 	public Item create(ItemType itemType) {
-		return items.save(Item.of(itemType));
+		return this.items.save(Item.of(itemType));
 	}
 
 	public void save(Item item, Long attributeId, String val) {
-		Attribute attribute = attributes.findById(attributeId)
+		Attribute attribute = this.attributes.findById(attributeId)
 				.orElseThrow(() -> new IllegalStateException("No such attribute: " + attributeId));
-		save(item, attribute, attribute.getAttributeType().getObjectConverter().apply(val));
+		this.save(item, attribute, attribute.getAttributeType().getObjectConverter().apply(val));
 	}
 
 	public void save(Item item, Attribute attribute, Object val) {
 		Assert.notNull(item, "item cannot be null");
 		Assert.notNull(attribute, "attribute cannot be null");
 
-		Value valueObject = values
+		Value valueObject = this.values
 				.findOne(ExpressionUtils.and(QValue.value.attribute.eq(attribute), QValue.value.item.eq(item)))
-				.orElseGet(() -> values.save(Value.of(attribute, item)));
+				.orElseGet(() -> this.values.save(Value.of(attribute, item)));
 
 		AttributeType attributeType = attribute.getAttributeType();
 		Field field = ReflectionUtils.findRequiredField(Value.class, attributeType.getField());
 
 		ReflectionUtils.setField(field, valueObject, val);
 
-		values.save(valueObject);
+		this.values.save(valueObject);
 	}
 
 }

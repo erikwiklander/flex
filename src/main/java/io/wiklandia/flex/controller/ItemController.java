@@ -19,9 +19,7 @@ import io.wiklandia.flex.model.Item;
 import io.wiklandia.flex.model.ItemType;
 import io.wiklandia.flex.service.ItemService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 @AllArgsConstructor
 public class ItemController {
@@ -37,15 +35,15 @@ public class ItemController {
 	}
 
 	@PostMapping("items/{itemType}/{item}")
-	public void update(@PathParam("item") Item item, @RequestBody(required = false) Map<Long, String> values) {
+	public ItemDto update(@PathParam("item") Item item, @RequestBody(required = false) Map<Long, String> values) {
 
-		log.info("item {} ", item);
-
-		for (Map.Entry<Long, String> value : values.entrySet()) {
-			itemService.save(item, value.getKey(), value.getValue());
+		if (values != null) {
+			for (Map.Entry<Long, String> value : values.entrySet()) {
+				itemService.save(item, value.getKey(), value.getValue());
+			}
 		}
 
-		log.info("heysan! {}", values);
+		return itemFinderService.getItem(item);
 	}
 
 }

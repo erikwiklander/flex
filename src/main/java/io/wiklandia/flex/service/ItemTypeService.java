@@ -28,13 +28,14 @@ public class ItemTypeService {
 		if (itemTypes.exists(QItemType.itemType.name.eq(name))) {
 			throw new IllegalStateException("Item Type already exists! " + name);
 		}
-		ItemType itemType = itemTypes.save(ItemType.of(name));
-		udpateView(itemType);
-		return itemType;
+
+		updateView();
+
+		return itemTypes.save(ItemType.of(name));
 	}
 
-	public void udpateView(ItemType itemType) {
-		viewService.updateView(itemType, findAttributesForItemType(itemType));
+	public void updateView() {
+		viewService.updateView(attributes.findAll(Sort.by("id")));
 	}
 
 	public Attribute createAttribute(String name, AttributeType attributeType, ItemType itemType) {
@@ -42,7 +43,7 @@ public class ItemTypeService {
 			throw new IllegalStateException("This attribute already exists! " + name);
 		}
 		Attribute attribute = attributes.save(Attribute.of(name, attributeType, itemType));
-		udpateView(itemType);
+		updateView();
 		return attribute;
 	}
 

@@ -29,6 +29,11 @@ public class FlexApplication {
 		SpringApplication.run(FlexApplication.class, args);
 	}
 
+	// @PostConstruct
+	// void started() {
+	// TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+	// }
+
 	@Bean
 	public CommandLineRunner commandLineRunner(ItemService itemService, ItemTypeService itemTypeService,
 			ViewService viewService, ItemFinderService ites) {
