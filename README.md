@@ -1,3 +1,5 @@
+![alt text](https://travis-ci.com/erikwiklander/flex.svg?branch=master)
+
 # Client
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
