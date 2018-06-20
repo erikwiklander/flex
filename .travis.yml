@@ -8,6 +8,6 @@ deploy:
   provider: heroku
   api_key:
     secure: IeW+MR329hwE6PgsQD3X7qf5bXMTDndqxe4yqQ7CvSIL1Bz9WWspvB3IctK4H3dMl6OA63srdo3KcBqAKdBG8vIAo+HcuAQ0hX2KPs0uZ83xcdqqhbVE7RgYC/WkwWRMlcAsDZm0o126/8Ko47331V+ejldllv/qVu2Hg/hEICa5ioOrF4181pmEzOhUKYmQF0/PxqhPmKEcOu/bPEjXeWirCaI4XhdlQgwi2NiFTdp4bKP8rZnEctwo+Zagvpk9BTUVWZ4FShaOtwYTic0pCeGA6XzdYqVlLlA2EhuxwD2D6TB4HoiCV8E2GdHl/sEgqzsA/PUDYPXZE5VAI/MKChhVFufHuw96OwLJ1VOxHGwOv6YgMweautIE5QLYwPR2h0vE7RiGIlvOkAoTR/NDj2ycCf9qj8hPu9DInCzHU1Y+VPj6zdbT2WZBHjBeJrbKsNe0Tt5e7Ap1x8+SZJrLCVSyHg7K3cD/V3TGU4X+XR2Se/FV7nRP8gZYiFTK21yVlFg1mvMsIO0oEcPan31Uzx+zyvHaHpAwEDTKKxSc6ySYJK+dB5h1u0j7MIL0tD0fRIw75Btl2L3VzW3+dVSXk5rh/zonC5mP1ivTag1jhBEItSKJRyAkhGPHg9K69WFkUQ4pzrSGE8jzyHXWId05rGR4urjPUwYdISxMO8JUg3s=
-  app: flex
+  app: griffin-flex
   on:
     repo: erikwiklander/flex
