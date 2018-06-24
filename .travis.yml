@@ -4,10 +4,3 @@ addons:
     organization: erikwiklander-github
 script:
 - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
-deploy:
-  provider: heroku
-  api_key:
-    secure: LcNRHEpV8x1+gNK3uXeFo5cB+KuNjvcatHwX0c6974BTP3G/6PEVUILF2BP1fcp5GJq5uSxyXpbGkhoQRHpHa6TnTODRH9ZPNR6NY9OjEMpfu5UIW+M4JAfJ/SaiD1STVX67EpaHQghyumd+knF3eY0aBxbN6KYBqncnwfue2RdJ1EikZaZ/rDzgJ8kfGKyyTk6lakmiH6uMznibSdSRL8o3GFoCSAqcqkHYx2huxmgT9wbgztFEAT6R5kZ8W8fCODV4SIdnTb5R0BYMK7GE0CREf99+IB+/nIkl/y5N1Wp5VAQirQ+uiJ3Cj3pL8u/F7llEt4p3223bJj9z/wPdznmkzgJU1nLyOxvKjjoJohLXwi1XaDqQumArI2oxiXzRIzJvuVlt06zVl8E6BAt66SQhsWwktJRWpNtYFo3XNEnC69gw5RtV5two0ieEQ8fFNGP3d0w9Ux4ZCTzuz3u/GzKGjqwQ2jNAj1kJ9SsfCqcvY0BPUlv/NYn67LPemjodQZpLPk2ZlUdCYJXftj9AQYa5dtIfpknJ4xCJ0QNNtXFd+xvNb443z3XxhnrnGX4s8pMM4yWafmH6IAFJWz/Eh+O0JjQ7U/tObG7lTAnQ5fyDsPiwb+w46rRI+84ouldyAFvsG0I5Cwij37o3qDc5T2d++JPEb4oGb0/rwmKz8eM=
-  app: griffin-flex
-  on:
-    repo: erikwiklander/flex
