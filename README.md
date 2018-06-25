@@ -1,4 +1,4 @@
-![alt text](https://travis-ci.com/erikwiklander/flex.svg?branch=master)
+
 
 # Client
 
