@@ -1,18 +1,11 @@
 package io.wiklandia.flex.service;
 
+import io.wiklandia.flex.db.ViewService;
+import io.wiklandia.flex.model.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import io.wiklandia.flex.db.ViewService;
-import io.wiklandia.flex.model.Attribute;
-import io.wiklandia.flex.model.AttributeRepository;
-import io.wiklandia.flex.model.AttributeType;
-import io.wiklandia.flex.model.ItemType;
-import io.wiklandia.flex.model.ItemTypeRepository;
-import io.wiklandia.flex.model.QAttribute;
-import io.wiklandia.flex.model.QItemType;
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +14,7 @@ public class ItemTypeService {
 	private final ItemTypeRepository itemTypes;
 	private final ViewService viewService;
 	private final AttributeRepository attributes;
+  private final ItemRepository items;
 
 	@Transactional
 	public ItemType createItemType(String name) {
@@ -33,6 +27,16 @@ public class ItemTypeService {
 
 		return itemTypes.save(ItemType.of(name));
 	}
+
+  public void delete(String name) {
+    attributes.deleteAll(attributes.findAll(QAttribute.attribute.itemType.name.eq(name)));
+    items.deleteAll(items.findAll(QItem.item.itemType.name.eq(name)));
+    itemTypes.deleteAll(itemTypes.findAll(QItemType.itemType.name.eq(name)));
+  }
+
+  public ItemType findByNamne(String name) {
+    return itemTypes.findOne(QItemType.itemType.name.eq(name)).orElseThrow(() -> new IllegalStateException("No such itemType " + name));
+  }
 
 	public void updateView() {
 		viewService.updateView(attributes.findAll(Sort.by("id")));
