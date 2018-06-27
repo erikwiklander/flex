@@ -1,1 +1,32 @@
-<mat-toolbar color="primary">Allright!</mat-toolbar>
+<mat-toolbar color="primary">
+  <div fxFlex="grow">
+    <button fxHide fxShow.xs="true" mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon class="md-24" aria-label="Menu">menu</mat-icon>
+    </button>
+    <button mat-button style="font-size: 20px">Griffin</button>
+  </div>
+  <div>
+    <span style="font-size: 70%;">{{ username }}</span>
+    <button mat-icon-button>
+      <mat-icon class="md-24" aria-label="Exit">exit_to_app</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container class="app-container" ngStyle.xs="top: 56px;">
+  <mat-sidenav #sidenav [(mode)]="mode" [(opened)]="opened" class="app-side-nav">
+    <nav>
+      <div>
+        <button mat-button class="app-nav-button">Button 1</button>
+      </div>
+      <div>
+          <button mat-button class="app-nav-button">Button 2</button>
+      </div>
+    </nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="app-nav-content">
+    This is my content!
+      <!--<router-outlet></router-outlet>-->
+  </mat-sidenav-content>
+</mat-sidenav-container>
